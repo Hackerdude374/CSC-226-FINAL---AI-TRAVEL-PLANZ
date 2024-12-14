@@ -17,15 +17,17 @@ builder.Services.AddDbContext<TripPlannerContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Add CORS
+// Configure CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
         builder =>
         {
-            builder.AllowAnyOrigin()
-                   .AllowAnyMethod()
-                   .AllowAnyHeader();
+            builder
+                .WithOrigins("http://localhost:5173") // Your React app's URL
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
         });
 });
 
@@ -38,12 +40,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
+// Important: Put UseCors before UseHttpsRedirection
 app.UseCors("AllowAll");
 
-app.UseAuthorization();
+// Comment this out temporarily for development
+// app.UseHttpsRedirection();
 
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
