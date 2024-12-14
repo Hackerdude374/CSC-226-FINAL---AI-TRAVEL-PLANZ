@@ -1,0 +1,5 @@
+http://localhost:5152/api/trips/user/test@example.com
+
+http://localhost:5152/api/trips/0193c5d9-f8fe-7274-b14a-bdf584138fca
+
+http://localhost:5152/api/trips
