@@ -1,0 +1,31 @@
+Table "public.trips"
+     Column     |           Type           | Collation | Nullable |      Default
+----------------+--------------------------+-----------+----------+--------------------
+ id             | uuid                     |           | not null | uuid_generate_v4()
+ user_email     | character varying(255)   |           | not null |
+ user_selection | jsonb                    |           | not null |
+ trip_data      | jsonb                    |           | not null |
+ created_at     | timestamp with time zone |           |          | CURRENT_TIMESTAMP
+Indexes:
+    "trips_pkey" PRIMARY KEY, btree (id)
+    "idx_trips_user_email" btree (user_email)
+
+
+
+    ------------------------------------
+
+
+    -- Enable UUID extension for id generation
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Create trips table
+CREATE TABLE trips (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_email VARCHAR(255) NOT NULL,
+    user_selection JSONB NOT NULL,
+    trip_data JSONB NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create index for faster user email lookups
+CREATE INDEX idx_trips_user_email ON trips(user_email);
