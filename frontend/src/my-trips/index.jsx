@@ -3,7 +3,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from 'react-router-dom';
 import UserTripCardItem from './components/UserTripCardItem';
-
+import { TripService } from '../service/TripService';
 function MyTrips() {
 
   const navigation=useNavigation();
@@ -16,23 +16,36 @@ function MyTrips() {
    * Used to Get All User Trips
    * @returns 
    */
-  const GetUserTrips=async()=>{
-    const user=JSON.parse(localStorage.getItem('user'));
-    console.log(user)
-    if(!user)
-    {
-        navigation('/');
-        return ;
-    }
+  // const GetUserTrips=async()=>{
+  //   const user=JSON.parse(localStorage.getItem('user'));
+  //   console.log(user)
+  //   if(!user)
+  //   {
+  //       navigation('/');
+  //       return ;
+  //   }
     
-    const q=query(collection(db,'AITrips'),where('userEmail','==',user?.email));
-    const querySnapshot = await getDocs(q);
-    setUserTrips([]);
-    querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
-        setUserTrips(prevVal=>[...prevVal,doc.data()])
-      });
-  }
+  //   const q=query(collection(db,'AITrips'),where('userEmail','==',user?.email));
+  //   const querySnapshot = await getDocs(q);
+  //   setUserTrips([]);
+  //   querySnapshot.forEach((doc) => {
+  //       console.log(doc.id, " => ", doc.data());
+  //       setUserTrips(prevVal=>[...prevVal,doc.data()])
+  //     });
+  // }
+  const GetUserTrips = async () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+        navigation('/');
+        return;
+    }
+    try {
+        const trips = await TripService.getUserTrips(user.email);
+        setUserTrips(trips);
+    } catch (error) {
+        toast.error('Failed to load trips');
+    }
+};
 
   return (
     <div className='sm:px-10 md:px-32 lg:px-56 xl:px-72 px-5 mt-10'>

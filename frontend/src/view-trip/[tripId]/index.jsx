@@ -7,7 +7,7 @@ import InfoSection from '../components/InfoSection';
 import Hotels from '../components/Hotels';
 import PlacesToVisit from '../components/PlacesToVisit';
 import Footer from '../components/Footer';
-
+import { TripService } from "@/service/TripService";
 function Viewtrip() {
 
     const {tripId}=useParams();
@@ -19,19 +19,27 @@ function Viewtrip() {
     /**
      * Used to get Trip Information from Firebase
      */
-    const GetTripData=async()=>{
-        const docRef=doc(db,'AITrips',tripId);
-        const docSnap=await getDoc(docRef);
+    // const GetTripData=async()=>{
+    //     const docRef=doc(db,'AITrips',tripId);
+    //     const docSnap=await getDoc(docRef);
 
-        if(docSnap.exists()){
-            console.log("Dodcument:",docSnap.data());
-            setTrip(docSnap.data());
-        }
-        else{
-            console.log("No Such Document");
+    //     if(docSnap.exists()){
+    //         console.log("Dodcument:",docSnap.data());
+    //         setTrip(docSnap.data());
+    //     }
+    //     else{
+    //         console.log("No Such Document");
+    //         toast('No trip Found!')
+    //     }
+    // }
+    const GetTripData = async () => {
+        try {
+            const trip = await TripService.getTripById(tripId);
+            setTrip(trip);
+        } catch (error) {
             toast('No trip Found!')
         }
-    }
+    };
 
   return (
     <div className='p-10 md:px-20 lg:px-44 xl:px-56'>

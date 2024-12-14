@@ -4,6 +4,7 @@ import { AI_PROMPT, SelectBudgetOptions, SelectTravelesList } from '@/constants/
 import { chatSession } from '@/service/AIModal';
 import React, { useEffect, useState } from 'react'
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
+import { TripService } from '../service/TripService';
 import { toast } from 'sonner';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import {
@@ -77,22 +78,46 @@ function CreateTrip() {
     SaveAiTrip(result?.response?.text())
   }
 
-  const SaveAiTrip = async (TripData) => {
+  // const SaveAiTrip = async (TripData) => {
 
-    setLoading(true);
-    const user = JSON.parse(localStorage.getItem('user'));
-    const docId = Date.now().toString()
+  //   // setLoading(true);
+  //   // const user = JSON.parse(localStorage.getItem('user'));
+  //   // const docId = Date.now().toString()
 
-    await setDoc(doc(db, "AITrips", docId), {
-      userSelection: formData,
-      tripData: JSON.parse(TripData),
-      userEmail: user?.email,
-      id: docId
-    });
-    setLoading(false);
-    navigate('/view-trip/'+docId)
+  //   // await setDoc(doc(db, "AITrips", docId), {
+  //   //   userSelection: formData,
+  //   //   tripData: JSON.parse(TripData),
+  //   //   userEmail: user?.email,
+  //   //   id: docId
+  //   // });
+  //   // setLoading(false);
+  //   // navigate('/view-trip/'+docId)
+  // }
+// C# endpoitn
+const SaveAiTrip = async (TripData) => {
+  setLoading(true);
+  const user = JSON.parse(localStorage.getItem('user'));
+  try {
+      // Parse the AI response
+      const parsedTripData = JSON.parse(TripData);
+      
+      // Structure data to match our PostgreSQL schema
+      const tripToSave = {
+          userEmail: user?.email,
+          userSelection: formData,  // Already contains location, days, budget, travelers
+          tripData: parsedTripData  // Contains hotels and itinerary from AI
+      };
+
+      console.log('Data being sent to API:', tripToSave);
+      const savedTrip = await TripService.createTrip(tripToSave);
+      setLoading(false);
+      navigate('/view-trip/' + savedTrip.id);
+  } catch (error) {
+      console.error('Error details:', error);
+      setLoading(false);
+      toast.error('Failed to save trip');
   }
-
+};
   const GetUserProfile = (tokenInfo) => {
     axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?acess_token=${tokenInfo?.access_token}`, {
       headers: {
