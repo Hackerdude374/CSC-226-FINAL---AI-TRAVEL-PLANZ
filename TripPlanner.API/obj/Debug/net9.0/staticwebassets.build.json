@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "GJIG//BV/RRBBPsO+goB9Vjr9O3iDkrNEw0hlEgOFkg=",
+  "Source": "TripPlanner.API",
+  "BasePath": "_content/TripPlanner.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
