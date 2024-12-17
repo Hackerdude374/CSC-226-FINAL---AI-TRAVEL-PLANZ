@@ -8,3 +8,10 @@ dotnet add package Swashbuckle.AspNetCore --version 7.2.0
 THEN
 
 dotnet run
+
+![alt text](image.png)
+![alt text](image-1.png)
+
+SQL SCHEMA
+
+
