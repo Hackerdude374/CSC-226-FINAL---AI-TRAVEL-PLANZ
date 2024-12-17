@@ -6,7 +6,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
-import { useNavigation } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 
 import {
@@ -14,10 +13,9 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import axios from "axios";
+
 function Header() {
   const user = JSON.parse(localStorage.getItem("user"));
   const [openDailog, setOpenDailog] = useState(false);
@@ -32,10 +30,9 @@ function Header() {
   });
 
   const GetUserProfile = async (tokenInfo) => {
-    console.log("HERE", tokenInfo);
     axios
       .get(
-        `https://www.googleapis.com/oauth2/v1/userinfo?acess_token=${tokenInfo?.access_token}`,
+        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,
         {
           headers: {
             Authorization: `Bearer ${tokenInfo?.access_token}`,
@@ -44,7 +41,6 @@ function Header() {
         }
       )
       .then((resp) => {
-        console.log(resp);
         localStorage.setItem("user", JSON.stringify(resp.data));
         setOpenDailog(false);
         window.location.reload();
@@ -52,21 +48,55 @@ function Header() {
   };
 
   return (
-    <div className="p-3 shadow-sm flex justify-between items-center px-5">
+    <div
+      className="p-4 shadow-lg flex justify-between items-center px-5 bg-black relative overflow-hidden"
+      style={{
+        backgroundImage:
+          "radial-gradient(circle, rgba(33,33,33,1) 0%, rgba(0,0,0,1) 100%)",
+        animation: "animateBackground 6s infinite alternate",
+      }}
+    >
+      {/* Animated Background */}
+      <style>
+        {`
+          @keyframes animateBackground {
+            0% {
+              background-position: 0% 0%;
+              background-color: #000;
+            }
+            100% {
+              background-position: 100% 100%;
+              background-color: #111;
+            }
+          }
+        `}
+      </style>
+
+      {/* Logo */}
       <a className="size-12 flex flex-row items-center" href="/">
-        <img className="m-2" src="/appLogo.png" />
-        <h3 className="m-2 font-extrabold text-xl">TripGPT.AI</h3>
+        <img className="m-2" src="/appLogo.png" alt="logo" />
+        <h3 className="m-2 font-extrabold text-2xl text-gray-300">
+          TripGPT.AI
+        </h3>
       </a>
+
+      {/* Navigation */}
       <div>
         {user ? (
           <div className="flex items-center gap-3">
             <a href="/create-trip">
-              <Button variant="outline" className="rounded-full">
+              <Button
+                variant="outline"
+                className="rounded-full border-gray-400 text-black hover:bg-gray-700"
+              >
                 + Create Trip
               </Button>
             </a>
             <a href="/my-trips">
-              <Button variant="outline" className="rounded-full">
+              <Button
+                variant="outline"
+                className="rounded-full border-gray-400 text-black hover:bg-gray-700"
+              >
                 My Trips
               </Button>
             </a>
@@ -74,12 +104,13 @@ function Header() {
               <PopoverTrigger>
                 <img
                   src={user?.picture}
-                  className="h-[35px] w-[35px] rounded-full"
+                  className="h-[35px] w-[35px] rounded-full border-2 border-gray-500"
+                  alt="user"
                 />
               </PopoverTrigger>
-              <PopoverContent>
+              <PopoverContent className="text-gray-300">
                 <h2
-                  className="cursor-pointer"
+                  className="cursor-pointer hover:text-red-500"
                   onClick={() => {
                     googleLogout();
                     localStorage.clear();
@@ -92,20 +123,27 @@ function Header() {
             </Popover>
           </div>
         ) : (
-          <Button onClick={() => setOpenDailog(true)}>Sign In</Button>
+          <Button
+          onClick={() => setOpenDailog(true)}
+          className="rounded-full border-gray-400 text-black hover:bg-gray-700"
+        >
+            Sign In
+          </Button>
         )}
       </div>
+
+      {/* Dialog */}
       <Dialog open={openDailog}>
         <DialogContent>
           <DialogHeader>
             <DialogDescription>
-              <img src="/logo.svg" />
+              <img src="/logo.svg" alt="logo" />
               <h2 className="font-bold text-lg mt-7">Sign In With Google</h2>
               <p>Sign in to the App with Google authentication securely</p>
 
               <Button
                 onClick={login}
-                className="w-full mt-5 flex gap-4 items-center"
+                className="w-full mt-5 flex gap-4 items-center bg-gray-700 text-white hover:bg-gray-800"
               >
                 <FcGoogle className="h-7 w-7" />
                 Sign In With Google

@@ -4,23 +4,23 @@ import { Link } from "react-router-dom";
 
 function Hero() {
   return (
-    <div className="flex flex-col  items-center mx-56 gap-9">
+    <div className="flex flex-col items-center mx-56 gap-9">
       <h1 className="font-extrabold font-workSans text-[50px] text-center mt-16">
         <span className="text-[#558493]">
-          Discover Your Next Adventure with AI:
+          Let AI Plan Your Dream Trip:
         </span>{" "}
-        Personalized Itineraries at Your Fingertips
+        Stress-Free Itineraries Made Just for You
       </h1>
       <p className="text-xl text-gray-500 text-center">
-        Your personal trip planner and travel curator, creating custom
-        itineraries tailored to your interests and budget.
+        Say goodbye to travel stress! Get personalized itineraries that match 
+        your vibe, your budget, and your bucket list.
       </p>
 
       <Link to={"/create-trip"}>
-        <Button className="bg-[#558493]"> Get Started, It's Free </Button>
+        <Button className="bg-[#558493]"> Start Planning for Free </Button>
       </Link>
 
-      <img src="/landing.png" className="animate-fadeIn" />
+      <img src="/trip.gif" className="animate-fadeIn" />
     </div>
   );
 }
