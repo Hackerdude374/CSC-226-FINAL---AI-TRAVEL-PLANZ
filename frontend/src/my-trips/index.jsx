@@ -1,5 +1,4 @@
-import { db } from '@/service/firebaseConfig';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from 'react-router-dom';
 import UserTripCardItem from './components/UserTripCardItem';
