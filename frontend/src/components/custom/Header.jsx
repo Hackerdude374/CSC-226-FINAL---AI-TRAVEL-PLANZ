@@ -55,7 +55,7 @@ function Header() {
     <div className="p-3 shadow-sm flex justify-between items-center px-5">
       <a className="size-12 flex flex-row items-center" href="/">
         <img className="m-2" src="/appLogo.png" />
-        <h3 className="m-2 font-extrabold text-xl">TripPlanner.AI</h3>
+        <h3 className="m-2 font-extrabold text-xl">TripGPT.AI</h3>
       </a>
       <div>
         {user ? (
