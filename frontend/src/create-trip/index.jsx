@@ -82,21 +82,7 @@ function CreateTrip() {
     SaveAiTrip(result?.response?.text());
   };
 
-  // const SaveAiTrip = async (TripData) => {
 
-  //   // setLoading(true);
-  //   // const user = JSON.parse(localStorage.getItem('user'));
-  //   // const docId = Date.now().toString()
-
-  //   // await setDoc(doc(db, "AITrips", docId), {
-  //   //   userSelection: formData,
-  //   //   tripData: JSON.parse(TripData),
-  //   //   userEmail: user?.email,
-  //   //   id: docId
-  //   // });
-  //   // setLoading(false);
-  //   // navigate('/view-trip/'+docId)
-  // }
   // C# endpoitn
   const SaveAiTrip = async (TripData) => {
     setLoading(true);
