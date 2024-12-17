@@ -1,1 +1,3 @@
-NPM i --force
+npm i --force
+
+npm run dev
